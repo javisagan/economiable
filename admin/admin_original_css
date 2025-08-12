@@ -1,0 +1,150 @@
+/* admin/css/style.css */
+
+/* --- Variables de Estilo Importadas del CSS Público --- */
+:root {
+    --primary-color: #333;
+    --text-muted-color: #888;
+    --border-color: #eee;
+    --background-color: #ffffff;
+    --header-color: #2E5A6A;
+    --title-brown-color: #6a5a50; 
+    
+    --font-sans: 'Lato', sans-serif;
+    --font-serif: 'Merriweather', serif; 
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: #f8f9fa; /* Un fondo muy claro para diferenciar del blanco del contenedor */
+    color: var(--primary-color);
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 2rem;
+    background-color: var(--background-color);
+    border-radius: 0; /* Sin bordes redondeados para un estilo más limpio */
+    box-shadow: none; /* Sin sombra */
+    border: 1px solid var(--border-color); /* Borde sutil para definir el contenedor */
+}
+
+#login-section { max-width: 400px; }
+#login-section h1 {
+    font-family: var(--font-sans);
+    color: var(--header-color);
+    text-align: center;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* --- Estilos para alinear el botón de login --- */
+.login-button-container {
+    margin-top: 1.5rem; /* Añade espacio sobre el botón */
+    text-align: right;  /* Alinea el contenido (el botón) a la derecha */
+}
+
+/* Mensajes de error (se mantiene el estilo distintivo por usabilidad) */
+.error-message {
+    color: #d93025;
+    background-color: #fbeae9;
+    border: 1px solid #d93025;
+    border-radius: 0;
+    padding: 10px;
+    margin-top: 1rem;
+    min-height: 1em;
+    text-align: center;
+    font-size: 0.9em;
+}
+.error-message:empty {
+    display: none;
+}
+
+#admin-panel header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+}
+
+#admin-panel header h1 {
+    font-family: var(--font-sans);
+    color: var(--header-color);
+    text-transform: uppercase;
+    font-size: 1.5rem;
+    letter-spacing: 1.5px;
+    margin: 0;
+}
+
+.panel-content { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+@media (max-width: 900px) { .panel-content { grid-template-columns: 1fr; } }
+
+form label { display: block; font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem; }
+form input[type="text"], form input[type="url"], form input[type="date"], form input[type="password"], form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc; /* Un gris un poco más oscuro para que resalte el campo */
+    border-radius: 0;
+    box-sizing: border-box;
+    font-size: 1rem;
+    font-family: var(--font-sans);
+    color: var(--primary-color);
+}
+form textarea { resize: vertical; }
+.form-buttons { margin-top: 1.5rem; }
+
+#posts-list { list-style-type: none; padding: 0; }
+#posts-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border: 1px solid var(--border-color);
+    margin-bottom: 0.5rem;
+    border-radius: 0;
+}
+#posts-list li:hover { background-color: #f8f9fa; }
+#posts-list li small { color: var(--text-muted-color); margin-left: 0.5rem; }
+
+button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 0;
+    font-size: 0.9rem;
+    font-family: var(--font-sans);
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+/* Botón Primario */
+button[type="submit"], #save-button {
+    background-color: var(--header-color);
+    color: white;
+}
+button[type="submit"]:hover, #save-button:hover {
+    background-color: #244754; /* Tono más oscuro de --header-color */
+}
+/* Botón Secundario */
+#logout-button, #cancel-button, .edit-btn {
+    background-color: #f0f0f0;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+#logout-button:hover, #cancel-button:hover, .edit-btn:hover {
+    background-color: #e0e0e0;
+}
+/* Botón de Peligro (se mantiene el color por usabilidad) */
+.delete-btn {
+    background-color: #fa3e3e;
+    color: white;
+    margin-left: 0.5rem;
+}
+.delete-btn:hover {
+    background-color: #e03030;
+}

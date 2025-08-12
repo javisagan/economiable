@@ -1,0 +1,43 @@
+<%- include('partials/header', { pageTitle: pageTitle, pageDescription: pageDescription }) %>
+
+<article class="full-post">
+    <h1><%= post.title %></h1>
+
+    <% if (post.subtitle) { %>
+        <h2><%= post.subtitle %></h2>
+    <% } %>
+
+    <p class="post-meta">
+        <%# Renderizar HTML en author para permitir enlaces %>
+        Por <%- post.author %> el <%= new Date(post.date).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' }) %>
+    </p>
+
+    <% if (post.imageUrl) { %>
+        <img src="<%= post.imageUrl %>" alt="Imagen principal del post <%= post.title %>" class="full-post-image">
+    <% } %>
+
+    <div class="post-content">
+        <%# LA LÍNEA CLAVE: Se restaura el .replace() para crear los párrafos y saltos de línea %>
+        <%- post.content.replace(/\n/g, '<br>') %>
+    </div>
+
+</article>
+
+<nav class="post-navigation">
+    <div class="nav-previous">
+        <% if (previousPost && previousPost.slug) { %>
+            <a href="/post/<%= previousPost.slug %>">&larr; Post Anterior
+                <span><%= previousPost.title %></span>
+            </a>
+        <% } %>
+    </div>
+    <div class="nav-next">
+        <% if (nextPost && nextPost.slug) { %>
+            <a href="/post/<%= nextPost.slug %>">Siguiente Post &rarr;
+                <span><%= nextPost.title %></span>
+            </a>
+        <% } %>
+    </div>
+</nav>
+
+<%- include('partials/footer') %>
