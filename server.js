@@ -132,6 +132,26 @@ app.post('/api/generate-sitemap', checkAuth, (req, res) => {
     }
 });
 
+app.post('/api/generate-robots', checkAuth, (req, res) => {
+    const fs = require('fs');
+    const path = require('path');
+    
+    try {
+        const { content } = req.body;
+        if (!content) {
+            return res.status(400).json({ error: 'Contenido del robots.txt requerido' });
+        }
+        
+        const robotsPath = path.join(__dirname, 'robots.txt');
+        fs.writeFileSync(robotsPath, content, 'utf8');
+        
+        res.json({ message: 'robots.txt generado exitosamente' });
+    } catch (error) {
+        console.error('Error generando robots.txt:', error);
+        res.status(500).json({ error: 'Error al generar robots.txt', details: error.message });
+    }
+});
+
 
 // 4. RUTAS DEL FRONTEND
 app.get('/', async (req, res) => {

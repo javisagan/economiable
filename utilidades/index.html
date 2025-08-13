@@ -126,16 +126,19 @@
             const button = document.getElementById('robotTxtBtn');
             const status = document.getElementById('robotTxtStatus');
             
-            // Deshabilitar botón y mostrar estado de carga
             button.disabled = true;
             button.textContent = 'Generando...';
             showStatus('loading', 'Generando archivo robots.txt...');
 
             try {
-                // Obtener lista de posts desde la API
+                const password = prompt('Introduce la contraseña de administrador:');
+                if (!password) {
+                    throw new Error('Contraseña requerida');
+                }
+
                 const response = await fetch('/api/posts', {
                     headers: {
-                        'Authorization': prompt('Introduce la contraseña de administrador:')
+                        'Authorization': password
                     }
                 });
 
@@ -147,19 +150,27 @@
                 }
 
                 const posts = await response.json();
-                
-                // Generar contenido del robots.txt
                 const robotsTxt = generateRobotsTxtContent(posts);
                 
-                // Crear y descargar el archivo
-                downloadFile('robots.txt', robotsTxt);
+                const createResponse = await fetch('/api/generate-robots', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': password
+                    },
+                    body: JSON.stringify({ content: robotsTxt })
+                });
+
+                if (!createResponse.ok) {
+                    const errorData = await createResponse.json();
+                    throw new Error(errorData.error || 'Error al crear el archivo robots.txt');
+                }
                 
-                showStatus('success', 'robots.txt generado exitosamente. El archivo se ha descargado automáticamente.');
+                showStatus('success', 'robots.txt generado exitosamente en la carpeta raíz del proyecto.');
                 
             } catch (error) {
                 showStatus('error', 'Error: ' + error.message);
             } finally {
-                // Rehabilitar botón
                 button.disabled = false;
                 button.textContent = 'Generar robots.txt';
             }
@@ -212,17 +223,6 @@ Crawl-delay: 1
             return robotsTxt;
         }
 
-        function downloadFile(filename, content) {
-            const blob = new Blob([content], { type: 'text/plain' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = filename;
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-            document.body.removeChild(a);
-        }
 
         async function generateSitemap() {
             const button = document.getElementById('sitemapBtn');

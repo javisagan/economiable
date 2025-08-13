@@ -2,19 +2,19 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>http://localhost:3002/</loc>
-        <lastmod>2025-08-13T09:23:06.135Z</lastmod>
+        <lastmod>2025-08-13T09:44:20.620Z</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
     </url>
     <url>
         <loc>http://localhost:3002/sobre-economiable</loc>
-        <lastmod>2025-08-13T09:23:06.135Z</lastmod>
+        <lastmod>2025-08-13T09:44:20.620Z</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>http://localhost:3002/suscribete</loc>
-        <lastmod>2025-08-13T09:23:06.135Z</lastmod>
+        <lastmod>2025-08-13T09:44:20.620Z</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>

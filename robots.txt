@@ -11,19 +11,20 @@ Disallow: /admin/
 Disallow: /api/
 
 # Páginas principales
-Sitemap: https://economiable.com/sitemap.xml
+Sitemap: http://localhost:3002/sitemap.xml
 
 # URLs de páginas estáticas
-# Página principal: https://economiable.com/
-# Página sobre nosotros: https://economiable.com/sobre-economiable
-# Página de suscripción: https://economiable.com/suscribete
+# Página principal: http://localhost:3002/
+# Página sobre nosotros: http://localhost:3002/sobre-economiable
+# Página de suscripción: http://localhost:3002/suscribete
 
-# Posts del blog
-# Los posts específicos se generarán automáticamente desde /utilidades
+# Posts del blog (2 posts encontrados)
+# http://localhost:3002/post/el-contexto-lo-es-todo-y-no-podemos-drselo-completo-a-una-inteligencia-artificial
+# http://localhost:3002/post/software-efmero-el-futuro-de-la-programacin-es-usar-y-tirar
 
 # Crawl-delay para ser respetuoso con el servidor
 Crawl-delay: 1
 
 # Información adicional
-# Este archivo fue generado automáticamente usando /utilidades
-# Para regenerar con posts actualizados, usar el generador en /utilidades/index.html
+# Este archivo fue generado automáticamente
+# Última actualización: 2025-08-13T09:55:25.147Z
