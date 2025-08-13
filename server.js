@@ -17,6 +17,7 @@ app.set('view engine', 'ejs');
 app.set('view cache', false);
 app.use(express.static('public'));
 app.use('/admin', express.static('admin'));
+app.use('/utilidades', express.static('utilidades'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -108,6 +109,26 @@ app.delete('/api/posts/:id', checkAuth, async (req, res) => {
         res.status(200).json({ message: 'Post eliminado' });
     } catch (error) {
         res.status(500).json({ error: 'Error al eliminar', details: error.message });
+    }
+});
+
+app.post('/api/generate-sitemap', checkAuth, (req, res) => {
+    const fs = require('fs');
+    const path = require('path');
+    
+    try {
+        const { content } = req.body;
+        if (!content) {
+            return res.status(400).json({ error: 'Contenido del sitemap requerido' });
+        }
+        
+        const sitemapPath = path.join(__dirname, 'sitemap.xml');
+        fs.writeFileSync(sitemapPath, content, 'utf8');
+        
+        res.json({ message: 'Sitemap generado exitosamente' });
+    } catch (error) {
+        console.error('Error generando sitemap:', error);
+        res.status(500).json({ error: 'Error al generar sitemap', details: error.message });
     }
 });
 
