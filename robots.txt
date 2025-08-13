@@ -1,0 +1,29 @@
+User-agent: *
+Allow: /
+
+# Permitir acceso a recursos estáticos importantes
+Allow: /css/
+Allow: /img/
+Allow: /js/
+
+# Bloquear panel de administración
+Disallow: /admin/
+Disallow: /api/
+
+# Páginas principales
+Sitemap: https://economiable.com/sitemap.xml
+
+# URLs de páginas estáticas
+# Página principal: https://economiable.com/
+# Página sobre nosotros: https://economiable.com/sobre-economiable
+# Página de suscripción: https://economiable.com/suscribete
+
+# Posts del blog
+# Los posts específicos se generarán automáticamente desde /utilidades
+
+# Crawl-delay para ser respetuoso con el servidor
+Crawl-delay: 1
+
+# Información adicional
+# Este archivo fue generado automáticamente usando /utilidades
+# Para regenerar con posts actualizados, usar el generador en /utilidades/index.html

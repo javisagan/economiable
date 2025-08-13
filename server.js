@@ -186,6 +186,13 @@ app.get('/sobre-economiable', (req, res) => {
   });
 });
 
+app.get('/utilidades', (req, res) => {
+  res.render('utilidades', {
+    pageTitle: 'Utilidades - economIAble',
+    pageDescription: 'Herramientas para la gestión y optimización del sitio web'
+  });
+});
+
 // 5. INICIAR EL SERVIDOR
 app.listen(port, () => {
     console.log(`Servidor escuchando en http://localhost:${port}`);
