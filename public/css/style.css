@@ -1,0 +1,278 @@
+/* public/css/style.css */
+
+/* --- CORRECCIÓN: Reseteo de Box-Sizing y Estabilización de Scroll --- */
+html {
+  box-sizing: border-box;
+  scrollbar-gutter: stable;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+:root {
+    --primary-color: #333;
+    --text-muted-color: #888;
+    --border-color: #eee;
+    --background-color: #ffffff;
+    --header-color: #2E5A6A;
+    --title-brown-color: #6a5a50; 
+    
+    --font-sans: 'Lato', sans-serif;
+    --font-serif: 'Merriweather', serif; 
+}
+
+body {
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    color: var(--primary-color);
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; 
+}
+
+.container {
+    max-width: 840px;
+    margin: 1rem auto 2rem auto;
+    padding: 0 2rem 1rem 2rem;
+    background: none;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+a:hover {
+    color: #000;
+}
+
+/* --- ESTILOS DEL HEADER Y MENÚ --- */
+.top-nav {
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    padding: 0.75rem 1rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.top-nav a {
+    color: #fff;
+    padding: 0 0.25rem;
+}
+.top-nav a:hover { 
+    color: #fff;
+    text-decoration: underline; 
+}
+
+.main-header {
+    text-align: center;
+    padding: 2rem 1rem;
+    margin-bottom: 0;
+    border-bottom: 1px solid var(--border-color);
+}
+/* CAMBIO: Se ajusta el estilo del contenedor del título para el logo */
+.site-title {
+    font-size: 1rem; /* Se resetea el tamaño de fuente ya que ahora contiene una imagen */
+    line-height: 1; /* Se ajusta la altura de línea */
+    margin: 0;
+}
+/* NUEVA REGLA: Estilos para la imagen del logo */
+.site-title img {
+    height: 60px; /* Tamaño vertical del logo. Ajusta este valor si es necesario. */
+    width: auto; /* El ancho se ajusta automáticamente para mantener la proporción */
+    max-width: 100%; /* Asegura que la imagen no se desborde en pantallas pequeñas */
+    vertical-align: middle; /* Mejora la alineación vertical */
+}
+
+.site-subtitle {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: var(--header-color);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0.5rem 0 0 0;
+}
+
+/* --- ESTILOS PARA LA LISTA DE ARTÍCULOS --- */
+.list-main-title {
+    font-family: var(--font-serif);
+    font-size: 1.7rem;
+    font-weight: 400;
+    color: var(--title-brown-color);
+    padding-top: 1.5rem;
+    margin-bottom: 1rem;
+    border-top: 1px solid #dcdcdc;
+    text-align: center;
+}
+.post-list { list-style: none; padding: 0; }
+.post-item {
+    padding: 2rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+.post-list .post-item:last-child { border-bottom: none; }
+.post-item-title {
+    font-family: var(--font-sans);
+    font-size: 1.3rem;
+    font-weight: 400;
+    margin: 0 0 0.25rem 0;
+    line-height: 1.4;
+}
+.post-item-subtitle {
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    font-style: italic;
+    color: #666;
+    margin: 0.25rem 0;
+}
+.post-item-date {
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    color: var(--text-muted-color);
+    margin: 0;
+}
+
+/* --- ESTILOS DEL POST INDIVIDUAL --- */
+.full-post h1 {
+    font-family: var(--font-serif);
+    font-size: 2.8rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+.full-post h2 {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #777;
+    margin: -0.5rem 0 1.5rem 0;
+    line-height: 1.4;
+}
+.post-meta {
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    color: var(--text-muted-color);
+    margin-bottom: 2rem;
+}
+.full-post-image {
+    max-width: 100%;
+    height: auto;
+    margin: 2rem 0;
+}
+.post-content {
+    font-family: var(--font-serif);
+    font-size: 1.15em;
+    line-height: 1.8;
+    color: #333;
+}
+.post-content p { margin-bottom: 1.5em; }
+.post-content a {
+    color: var(--header-color);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+}
+.post-content a:hover { color: #000; }
+.post-content blockquote {
+    border-left: 3px solid var(--border-color);
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+    font-style: italic;
+    color: #666;
+}
+
+/* --- ESTILO PARA NAVEGACIÓN ENTRE POSTS --- */
+.post-navigation {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    font-family: var(--font-sans);
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+}
+.post-navigation a {
+    font-weight: 700;
+    color: var(--primary-color);
+    line-height: 1.3;
+}
+.post-navigation a:hover { color: #000; }
+.post-navigation a span {
+    display: block;
+    font-weight: 400;
+    font-size: 0.9em;
+    color: var(--text-muted-color);
+    margin-top: 0.25rem;
+}
+.nav-next { text-align: right; }
+
+/* --- ESTILOS PARA EL FOOTER --- */
+.main-footer {
+    text-align: center;
+    margin-top: 4rem;
+    padding: 2rem 0;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.85rem;
+    color: var(--text-muted-color);
+}
+
+/* --- ESTILOS PARA PÁGINAS ESTÁTICAS (Sobre, Suscribete, etc.) --- */
+.static-content {
+    font-family: var(--font-serif);
+    font-size: 1.1em;
+    line-height: 1.8;
+    color: #333;
+}
+.static-content p {
+    margin-bottom: 1.5em;
+}
+.static-content h3 {
+    font-family: var(--font-sans);
+    font-size: 1.4em;
+    font-weight: 700;
+    margin-top: 2em;
+    margin-bottom: 1em;
+    color: var(--header-color);
+}
+.static-content ul {
+    list-style-type: disc;
+    padding-left: 25px;
+}
+.static-content li {
+    margin-bottom: 0.75em;
+}
+
+/* ESTILOS para el formulario DENTRO de .static-content */
+.static-content form {
+    max-width: 500px;
+    margin: 2.5rem auto 0 auto;
+}
+.static-content form input[type="email"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 0;
+    font-size: 1rem;
+    font-family: var(--font-sans);
+    margin-bottom: 10px;
+}
+.static-content form button {
+    width: 100%;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 0;
+    font-size: 1rem;
+    font-family: var(--font-sans);
+    cursor: pointer;
+    background-color: var(--header-color);
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.static-content form button:hover { 
+    background-color: #244754; 
+}

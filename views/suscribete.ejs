@@ -1,0 +1,26 @@
+<%- include('partials/header', { 
+    pageTitle: 'Suscríbete a economiable', 
+    pageDescription: 'Recibe los últimos análisis sobre IA, economía y negocios directamente en tu correo.' 
+}) %>
+
+<h2 class="list-main-title">Suscíbete a economiable</h2>
+
+<div class="static-content">
+
+    <p style="text-align: center;">
+        Recibe los últimos análisis sobre inteligencia artificial, economía y negocios directamente en tu correo. Sin spam, solo contenido de valor.
+    </p>
+
+    <form action="/accion-de-suscripcion" method="POST">
+        <input type="email" name="email" placeholder="Tu mejor correo electrónico" required>
+        <button type="submit">Suscribirme</button>
+    </form>
+    
+</div>
+
+</main>
+
+<%- include('partials/footer') %>
+
+</body>
+</html>

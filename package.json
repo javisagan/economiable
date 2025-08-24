@@ -1,0 +1,21 @@
+{
+  "name": "blog-economiable",
+  "version": "1.0.0",
+  "description": "Blog con Node.js y sistema de almacenamiento JSON local.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "migrate": "node scripts/migrate-from-airtable.js migrate",
+    "backup": "node scripts/migrate-from-airtable.js backup",
+    "validate": "node scripts/migrate-from-airtable.js validate"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "airtable": "^0.12.2"
+  }
+}
