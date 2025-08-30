@@ -1,0 +1,32 @@
+<%- include('partials/header', { pageTitle: pageTitle, pageDescription: pageDescription }) %>
+
+<h2 class="list-main-title">Artículos generales</h2>
+
+<div class="post-list">
+    <% posts.forEach(post => { %>
+        <% if (post.slug) { %>
+            <article class="post-item">
+                
+                <h3 class="post-item-title">
+                    <a href="/post/<%= post.slug %>"><%= post.title %></a>
+                </h3>
+                
+                <% if (post.subtitle) { %>
+                    <p class="post-item-subtitle">- <%= post.subtitle %></p>
+                <% } %>
+
+                <p class="post-item-date">
+                    <%= new Date(post.date).toLocaleDateString('es-ES', { month: 'long', day: 'numeric', year: 'numeric' }) %>
+                </p>
+
+            </article>
+        <% } %>
+    <% }) %>
+</div>
+
+</main>
+
+<%- include('partials/footer') %>
+
+</body>
+</html>

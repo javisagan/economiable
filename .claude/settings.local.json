@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(c:\\Users\\sagan\\Desktop/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

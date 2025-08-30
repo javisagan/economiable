@@ -1,0 +1,20 @@
+{
+  "posts": [
+    {
+      "id": "recDemoPost001",
+      "title": "Bienvenido a economIAble 2.0",
+      "subtitle": "Migración exitosa al sistema de almacenamiento JSON local",
+      "author": "economIAble Team",
+      "date": "2025-08-24",
+      "content": "<p>¡Bienvenido a la nueva versión de economIAble! Hemos migrado exitosamente nuestro sistema de almacenamiento desde Airtable a un sistema de archivos JSON local, lo que nos proporciona:</p><ul><li><strong>Mayor control</strong> sobre nuestros datos</li><li><strong>Mejor rendimiento</strong> al eliminar dependencias externas</li><li><strong>Facilidad de backup</strong> y gestión de contenido</li><li><strong>Flexibilidad</strong> para futuras expansiones</li></ul><p>El panel de administración mantiene exactamente la misma interfaz y funcionalidad que conoces, pero ahora funciona con nuestro nuevo sistema de almacenamiento local.</p>",
+      "excerpt": "Descubre las mejoras del nuevo sistema de almacenamiento JSON local de economIAble.",
+      "imageUrl": "",
+      "tags": "sistema, migración, json, local",
+      "metaTitle": "economIAble 2.0 - Sistema de almacenamiento JSON local",
+      "metaDescription": "Conoce las mejoras del nuevo sistema de almacenamiento JSON local de economIAble y sus beneficios.",
+      "slug": "bienvenido-a-economiable-2-0",
+      "createdAt": "2025-08-24T00:00:00.000Z",
+      "updatedAt": "2025-08-24T00:00:00.000Z"
+    }
+  ]
+}

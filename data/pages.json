@@ -1,0 +1,31 @@
+{
+  "pages": [
+    {
+      "id": "rec_suscribete001",
+      "slug": "suscribete",
+      "title": "Suscríbete a economIAble",
+      "description": "Recibe los últimos análisis sobre IA, economía y negocios directamente en tu correo.",
+      "content": "",
+      "createdAt": "2025-08-24T00:00:00.000Z",
+      "updatedAt": "2025-08-24T00:00:00.000Z"
+    },
+    {
+      "id": "rec_sobre001",
+      "slug": "sobre-economiable", 
+      "title": "Sobre economIAble",
+      "description": "Descubre la misión y el propósito de economIAble, un espacio de análisis sobre el impacto de la inteligencia artificial en la economía.",
+      "content": "",
+      "createdAt": "2025-08-24T00:00:00.000Z",
+      "updatedAt": "2025-08-24T00:00:00.000Z"
+    },
+    {
+      "id": "rec_utilidades001",
+      "slug": "utilidades",
+      "title": "Utilidades - economIAble", 
+      "description": "Herramientas para la gestión y optimización del sitio web",
+      "content": "",
+      "createdAt": "2025-08-24T00:00:00.000Z",
+      "updatedAt": "2025-08-24T00:00:00.000Z"
+    }
+  ]
+}

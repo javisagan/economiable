@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artículos - Editor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .toolbar {
+            background-color: #ecf0f1;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            margin: 0 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+        }
+
+        .btn.add {
+            background-color: #27ae60;
+        }
+
+        .btn.add:hover {
+            background-color: #229954;
+        }
+
+        .btn.delete {
+            background-color: #e74c3c;
+        }
+
+        .btn.delete:hover {
+            background-color: #c0392b;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #34495e;
+            color: white;
+            padding: 12px 8px;
+            text-align: left;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            border-right: 1px solid #2c3e50;
+        }
+
+        td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            vertical-align: top;
+            position: relative;
+        }
+
+        .cell-input {
+            width: 100%;
+            border: none;
+            background: transparent;
+            padding: 4px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: none;
+            min-height: 20px;
+            outline: none;
+        }
+
+        .cell-input:focus {
+            background-color: #e8f4fd;
+            border: 2px solid #3498db;
+            border-radius: 2px;
+        }
+
+        .row-number {
+            background-color: #ecf0f1;
+            color: #7f8c8d;
+            text-align: center;
+            font-weight: bold;
+            width: 50px;
+            min-width: 50px;
+        }
+
+        .col-titulo { min-width: 200px; }
+        .col-subtitulo { min-width: 200px; }
+        .col-autor { min-width: 120px; }
+        .col-resumen { min-width: 250px; }
+        .col-contenido { min-width: 300px; }
+        .col-acciones { min-width: 80px; text-align: center; }
+
+        .selected-cell {
+            background-color: #e8f4fd !important;
+            border: 2px solid #3498db !important;
+        }
+
+        .delete-row {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .delete-row:hover {
+            background-color: #c0392b;
+        }
+
+        .status-bar {
+            background-color: #ecf0f1;
+            padding: 8px 15px;
+            font-size: 12px;
+            color: #7f8c8d;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Editor de Artículos</h1>
+            <p>Interfaz tipo Excel para gestionar artículos</p>
+        </div>
+
+        <div class="toolbar">
+            <button class="btn add" onclick="addRow()">➕ Agregar Fila</button>
+            <button class="btn" onclick="saveData()">💾 Guardar</button>
+            <button class="btn" onclick="loadSampleData()">📋 Datos de Ejemplo</button>
+            <button class="btn" onclick="clearAll()">🗑️ Limpiar Todo</button>
+        </div>
+
+        <div class="table-container">
+            <table id="articlesTable">
+                <thead>
+                    <tr>
+                        <th class="row-number">#</th>
+                        <th class="col-titulo">Título</th>
+                        <th class="col-subtitulo">Subtítulo</th>
+                        <th class="col-autor">Autor</th>
+                        <th class="col-resumen">Resumen</th>
+                        <th class="col-contenido">Contenido</th>
+                        <th class="col-acciones">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Las filas se generarán dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="status-bar">
+            <span id="statusText">Listo - 0 artículos</span>
+        </div>
+    </div>
+
+    <script>
+        let articles = [];
+        let selectedCell = null;
+        let nextId = 1;
+
+        // Inicializar la tabla
+        function initTable() {
+            loadSampleData();
+            updateStatusBar();
+        }
+
+        // Agregar una nueva fila
+        function addRow() {
+            const newArticle = {
+                id: nextId++,
+                titulo: '',
+                subtitulo: '',
+                autor: '',
+                resumen: '',
+                contenido: ''
+            };
+            articles.push(newArticle);
+            renderTable();
+            updateStatusBar();
+        }
+
+        // Eliminar fila
+        function deleteRow(index) {
+            if (confirm('¿Estás seguro de que quieres eliminar este artículo?')) {
+                articles.splice(index, 1);
+                renderTable();
+                updateStatusBar();
+            }
+        }
+
+        // Renderizar la tabla
+        function renderTable() {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+
+            articles.forEach((article, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="row-number">${index + 1}</td>
+                    <td class="col-titulo">
+                        <textarea class="cell-input" 
+                                data-field="titulo" 
+                                data-index="${index}" 
+                                placeholder="Título del artículo"
+                                onkeydown="handleKeyNavigation(event, this)"
+                                onfocus="selectCell(this)"
+                                oninput="updateData(${index}, 'titulo', this.value)">${article.titulo}</textarea>
+                    </td>
+                    <td class="col-subtitulo">
+                        <textarea class="cell-input" 
+                                data-field="subtitulo" 
+                                data-index="${index}" 
+                                placeholder="Subtítulo"
+                                onkeydown="handleKeyNavigation(event, this)"
+                                onfocus="selectCell(this)"
+                                oninput="updateData(${index}, 'subtitulo', this.value)">${article.subtitulo}</textarea>
+                    </td>
+                    <td class="col-autor">
+                        <textarea class="cell-input" 
+                                data-field="autor" 
+                                data-index="${index}" 
+                                placeholder="Nombre del autor"
+                                onkeydown="handleKeyNavigation(event, this)"
+                                onfocus="selectCell(this)"
+                                oninput="updateData(${index}, 'autor', this.value)">${article.autor}</textarea>
+                    </td>
+                    <td class="col-resumen">
+                        <textarea class="cell-input" 
+                                data-field="resumen" 
+                                data-index="${index}" 
+                                placeholder="Resumen del artículo"
+                                onkeydown="handleKeyNavigation(event, this)"
+                                onfocus="selectCell(this)"
+                                oninput="updateData(${index}, 'resumen', this.value)">${article.resumen}</textarea>
+                    </td>
+                    <td class="col-contenido">
+                        <textarea class="cell-input" 
+                                data-field="contenido" 
+                                data-index="${index}" 
+                                placeholder="Contenido completo del artículo"
+                                onkeydown="handleKeyNavigation(event, this)"
+                                onfocus="selectCell(this)"
+                                oninput="updateData(${index}, 'contenido', this.value)">${article.contenido}</textarea>
+                    </td>
+                    <td class="col-acciones">
+                        <button class="delete-row" onclick="deleteRow(${index})">🗑️</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+
+                // Ajustar altura de las celdas
+                row.querySelectorAll('.cell-input').forEach(input => {
+                    adjustTextareaHeight(input);
+                });
+            });
+        }
+
+        // Actualizar datos
+        function updateData(index, field, value) {
+            if (articles[index]) {
+                articles[index][field] = value;
+            }
+            updateStatusBar();
+        }
+
+        // Seleccionar celda
+        function selectCell(element) {
+            // Remover selección anterior
+            if (selectedCell) {
+                selectedCell.classList.remove('selected-cell');
+            }
+            
+            // Seleccionar nueva celda
+            selectedCell = element;
+            element.classList.add('selected-cell');
+        }
+
+        // Navegación con teclado (como Excel)
+        function handleKeyNavigation(event, element) {
+            const index = parseInt(element.dataset.index);
+            const field = element.dataset.field;
+            const fields = ['titulo', 'subtitulo', 'autor', 'resumen', 'contenido'];
+            const currentFieldIndex = fields.indexOf(field);
+
+            // Tab para siguiente celda
+            if (event.key === 'Tab') {
+                event.preventDefault();
+                let nextFieldIndex, nextRowIndex;
+
+                if (event.shiftKey) {
+                    // Shift+Tab: celda anterior
+                    if (currentFieldIndex > 0) {
+                        nextFieldIndex = currentFieldIndex - 1;
+                        nextRowIndex = index;
+                    } else if (index > 0) {
+                        nextFieldIndex = fields.length - 1;
+                        nextRowIndex = index - 1;
+                    } else {
+                        return;
+                    }
+                } else {
+                    // Tab: siguiente celda
+                    if (currentFieldIndex < fields.length - 1) {
+                        nextFieldIndex = currentFieldIndex + 1;
+                        nextRowIndex = index;
+                    } else if (index < articles.length - 1) {
+                        nextFieldIndex = 0;
+                        nextRowIndex = index + 1;
+                    } else {
+                        // Agregar nueva fila si estamos en la última celda
+                        addRow();
+                        nextFieldIndex = 0;
+                        nextRowIndex = articles.length - 1;
+                    }
+                }
+
+                // Enfocar la siguiente celda
+                setTimeout(() => {
+                    const nextCell = document.querySelector(`[data-index="${nextRowIndex}"][data-field="${fields[nextFieldIndex]}"]`);
+                    if (nextCell) {
+                        nextCell.focus();
+                    }
+                }, 10);
+            }
+
+            // Enter para siguiente fila, misma columna
+            else if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                let nextRowIndex = index + 1;
+                
+                // Si estamos en la última fila, agregar nueva
+                if (nextRowIndex >= articles.length) {
+                    addRow();
+                }
+
+                setTimeout(() => {
+                    const nextCell = document.querySelector(`[data-index="${nextRowIndex}"][data-field="${field}"]`);
+                    if (nextCell) {
+                        nextCell.focus();
+                    }
+                }, 10);
+            }
+
+            // Ajustar altura del textarea
+            adjustTextareaHeight(element);
+        }
+
+        // Ajustar altura del textarea según el contenido
+        function adjustTextareaHeight(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.max(20, textarea.scrollHeight) + 'px';
+        }
+
+        // Guardar datos (localStorage)
+        function saveData() {
+            localStorage.setItem('articlesData', JSON.stringify(articles));
+            localStorage.setItem('nextId', nextId.toString());
+            document.getElementById('statusText').textContent = `Guardado - ${articles.length} artículos`;
+            setTimeout(updateStatusBar, 2000);
+        }
+
+        // Cargar datos de ejemplo
+        function loadSampleData() {
+            const savedData = localStorage.getItem('articlesData');
+            const savedNextId = localStorage.getItem('nextId');
+
+            if (savedData) {
+                articles = JSON.parse(savedData);
+                nextId = savedNextId ? parseInt(savedNextId) : articles.length + 1;
+            } else {
+                // Datos de ejemplo por defecto
+                articles = [
+                    {
+                        id: 1,
+                        titulo: "Introducción a la Economía Digital",
+                        subtitulo: "Cómo la tecnología está transformando los mercados",
+                        autor: "Juan Pérez",
+                        resumen: "Un análisis completo sobre el impacto de la digitalización en la economía moderna y sus implicaciones para el futuro.",
+                        contenido: "La economía digital ha revolucionado la forma en que entendemos los mercados tradicionales. En este artículo exploramos las principales tendencias y su impacto en diferentes sectores..."
+                    },
+                    {
+                        id: 2,
+                        titulo: "Criptomonedas y Finanzas Descentralizadas",
+                        subtitulo: "El futuro del dinero está aquí",
+                        autor: "María García",
+                        resumen: "Exploramos el mundo de las criptomonedas y cómo las finanzas descentralizadas están cambiando el panorama financiero global.",
+                        contenido: "Las criptomonedas han emergido como una alternativa disruptiva al sistema financiero tradicional. Bitcoin, Ethereum y otras monedas digitales están redefiniendo conceptos fundamentales..."
+                    },
+                    {
+                        id: 3,
+                        titulo: "Sostenibilidad Económica en el Siglo XXI",
+                        subtitulo: "Equilibrando crecimiento y responsabilidad ambiental",
+                        autor: "Carlos López",
+                        resumen: "Analizamos los desafíos y oportunidades de crear un modelo económico sostenible que respete los límites planetarios.",
+                        contenido: "La sostenibilidad económica se ha convertido en una prioridad urgente para gobiernos y empresas. Este artículo examina estrategias innovadoras para lograr un desarrollo económico responsable..."
+                    }
+                ];
+                nextId = 4;
+            }
+
+            renderTable();
+            updateStatusBar();
+        }
+
+        // Limpiar todos los datos
+        function clearAll() {
+            if (confirm('¿Estás seguro de que quieres eliminar todos los artículos?')) {
+                articles = [];
+                nextId = 1;
+                localStorage.removeItem('articlesData');
+                localStorage.removeItem('nextId');
+                renderTable();
+                updateStatusBar();
+            }
+        }
+
+        // Actualizar barra de estado
+        function updateStatusBar() {
+            const statusText = document.getElementById('statusText');
+            statusText.textContent = `Listo - ${articles.length} artículos`;
+        }
+
+        // Inicializar cuando la página carga
+        document.addEventListener('DOMContentLoaded', initTable);
+
+        // Guardar automáticamente cada 30 segundos
+        setInterval(saveData, 30000);
+    </script>
+</body>
+</html>

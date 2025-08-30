@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Utilidades - economIAble</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .header h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .header p {
+            color: #666;
+        }
+        .auth-warning {
+            background: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #ffeaa7;
+            text-align: center;
+        }
+        .utilities-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .utility-item {
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #fafafa;
+        }
+        .utility-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .utility-description {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        .utility-button {
+            background-color: #007cba;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .utility-button:hover {
+            background-color: #005a8a;
+        }
+        .utility-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .status-message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        .status-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .status-loading {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .back-button {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background-color: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .back-button:hover {
+            background-color: #545b62;
+        }
+    </style>
+</head>
+<body>
+    <a href="../" class="back-button">← Volver al Panel Admin</a>
+    
+    <div class="header">
+        <h1>🛠️ Utilidades de economIAble</h1>
+        <p>Herramientas para la gestión y optimización del sitio web</p>
+    </div>
+
+    <div class="auth-warning">
+        🔒 <strong>Área Protegida:</strong> Esta página requiere autenticación de administrador
+    </div>
+
+    <div class="utilities-container">
+        <div class="utility-item">
+            <div class="utility-title">🤖 Generador de robots.txt</div>
+            <div class="utility-description">
+                Genera automáticamente un archivo robots.txt optimizado para SEO basado en la estructura actual 
+                de páginas y posts del blog. Este archivo ayudará a los motores de búsqueda a indexar 
+                correctamente tu contenido.
+            </div>
+            <button class="utility-button" id="robotTxtBtn" onclick="generateRobotsTxt()">
+                Generar robots.txt
+            </button>
+            <div class="status-message" id="robotTxtStatus"></div>
+        </div>
+
+        <div class="utility-item">
+            <div class="utility-title">📄 Generador de sitemap.xml</div>
+            <div class="utility-description">
+                Genera automáticamente un archivo sitemap.xml con todas las URLs del sitio web, incluyendo 
+                las páginas estáticas y todos los posts del blog. Este archivo se creará en la carpeta raíz 
+                del proyecto y ayudará a los buscadores a indexar todas las páginas.
+            </div>
+            <button class="utility-button" id="sitemapBtn" onclick="generateSitemap()">
+                Generar sitemap.xml
+            </button>
+            <div class="status-message" id="sitemapStatus"></div>
+        </div>
+    </div>
+
+    <script>
+        // Obtener token JWT de sessionStorage (debe estar disponible si el usuario está autenticado)
+        function getAuthToken() {
+            const token = sessionStorage.getItem('authToken');
+            if (!token) {
+                showError('No estás autenticado. Por favor, inicia sesión desde el panel de administración.');
+                return null;
+            }
+            return token;
+        }
+
+        // Función auxiliar para hacer peticiones autenticadas
+        async function fetchWithAuth(url, options = {}) {
+            const token = getAuthToken();
+            if (!token) return null;
+            
+            const authOptions = {
+                ...options,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                    ...options.headers
+                }
+            };
+            
+            try {
+                const response = await fetch(url, authOptions);
+                
+                if (response.status === 401) {
+                    showError('Tu sesión ha expirado. Por favor, vuelve a iniciar sesión.');
+                    setTimeout(() => {
+                        window.close(); // Cerrar esta ventana
+                    }, 3000);
+                    return null;
+                }
+                
+                return response;
+            } catch (error) {
+                console.error('Fetch with auth error:', error);
+                return null;
+            }
+        }
+
+        function showError(message) {
+            alert('❌ ' + message);
+        }
+
+        async function generateRobotsTxt() {
+            const button = document.getElementById('robotTxtBtn');
+            const status = document.getElementById('robotTxtStatus');
+            
+            button.disabled = true;
+            button.textContent = '🔄 Generando...';
+            showStatus(status, 'loading', 'Generando archivo robots.txt...');
+
+            try {
+                // Obtener posts desde la API usando autenticación JWT
+                const response = await fetchWithAuth('/api/posts');
+                
+                if (!response) {
+                    throw new Error('Error de autenticación');
+                }
+
+                if (!response.ok) {
+                    throw new Error('Error al obtener los posts');
+                }
+
+                const posts = await response.json();
+                const robotsTxt = generateRobotsTxtContent(posts);
+                
+                // Crear el archivo robots.txt
+                const createResponse = await fetchWithAuth('/api/generate-robots', {
+                    method: 'POST',
+                    body: JSON.stringify({ content: robotsTxt })
+                });
+
+                if (!createResponse) {
+                    throw new Error('Error de autenticación');
+                }
+
+                if (!createResponse.ok) {
+                    const errorData = await createResponse.json();
+                    throw new Error(errorData.error || 'Error al crear el archivo robots.txt');
+                }
+                
+                showStatus(status, 'success', '✅ robots.txt generado exitosamente en la carpeta raíz del proyecto.');
+                
+            } catch (error) {
+                showStatus(status, 'error', '❌ Error: ' + error.message);
+            } finally {
+                button.disabled = false;
+                button.textContent = 'Generar robots.txt';
+            }
+        }
+
+        function generateRobotsTxtContent(posts) {
+            const baseUrl = window.location.origin;
+            
+            let robotsTxt = `User-agent: *
+Allow: /
+
+# Permitir acceso a recursos estáticos importantes
+Allow: /css/
+Allow: /img/
+Allow: /js/
+
+# Bloquear panel de administración
+Disallow: /admin/
+Disallow: /api/
+
+# Páginas principales
+Sitemap: ${baseUrl}/sitemap.xml
+
+# URLs de páginas estáticas
+# Página principal: ${baseUrl}/
+# Página sobre nosotros: ${baseUrl}/sobre-economiable
+# Página de suscripción: ${baseUrl}/suscribete
+
+`;
+
+            // Agregar comentarios sobre los posts existentes
+            if (posts && posts.length > 0) {
+                robotsTxt += `# Posts del blog (${posts.length} posts encontrados)\n`;
+                posts.forEach(post => {
+                    if (post.slug) {
+                        robotsTxt += `# ${baseUrl}/post/${post.slug}\n`;
+                    }
+                });
+            }
+
+            robotsTxt += `
+# Crawl-delay para ser respetuoso con el servidor
+Crawl-delay: 1
+
+# Información adicional
+# Este archivo fue generado automáticamente
+# Última actualización: ${new Date().toISOString()}
+`;
+
+            return robotsTxt;
+        }
+
+        async function generateSitemap() {
+            const button = document.getElementById('sitemapBtn');
+            const status = document.getElementById('sitemapStatus');
+            
+            // Deshabilitar botón y mostrar estado de carga
+            button.disabled = true;
+            button.textContent = '🔄 Generando...';
+            showStatus(status, 'loading', 'Generando archivo sitemap.xml...');
+
+            try {
+                // Obtener lista de posts desde la API usando JWT
+                const response = await fetchWithAuth('/api/posts');
+                
+                if (!response) {
+                    throw new Error('Error de autenticación');
+                }
+
+                if (!response.ok) {
+                    throw new Error('Error al obtener los posts');
+                }
+
+                const posts = await response.json();
+                
+                // Generar contenido del sitemap.xml
+                const sitemapXml = generateSitemapContent(posts);
+                
+                // Crear el archivo usando la API del servidor
+                const createResponse = await fetchWithAuth('/api/generate-sitemap', {
+                    method: 'POST',
+                    body: JSON.stringify({ content: sitemapXml })
+                });
+
+                if (!createResponse) {
+                    throw new Error('Error de autenticación');
+                }
+
+                if (!createResponse.ok) {
+                    const errorData = await createResponse.json();
+                    throw new Error(errorData.error || 'Error al crear el archivo sitemap.xml');
+                }
+                
+                const result = await createResponse.json();
+                const urlCount = result.urls || 0;
+                
+                showStatus(status, 'success', `✅ sitemap.xml generado exitosamente con ${urlCount} URLs.`);
+                
+            } catch (error) {
+                showStatus(status, 'error', '❌ Error: ' + error.message);
+            } finally {
+                // Rehabilitar botón
+                button.disabled = false;
+                button.textContent = 'Generar sitemap.xml';
+            }
+        }
+
+        function generateSitemapContent(posts) {
+            const baseUrl = window.location.origin;
+            const now = new Date().toISOString();
+            
+            let sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
+
+            // Página principal
+            sitemapXml += `
+    <url>
+        <loc>${baseUrl}/</loc>
+        <lastmod>${now}</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+    </url>`;
+
+            // Páginas estáticas
+            const staticPages = [
+                { url: '/sobre-economiable', changefreq: 'monthly', priority: '0.8' },
+                { url: '/suscribete', changefreq: 'monthly', priority: '0.7' }
+            ];
+
+            staticPages.forEach(page => {
+                sitemapXml += `
+    <url>
+        <loc>${baseUrl}${page.url}</loc>
+        <lastmod>${now}</lastmod>
+        <changefreq>${page.changefreq}</changefreq>
+        <priority>${page.priority}</priority>
+    </url>`;
+            });
+
+            // Posts del blog
+            if (posts && posts.length > 0) {
+                posts.forEach(post => {
+                    if (post.slug) {
+                        const postDate = post.date ? new Date(post.date).toISOString() : now;
+                        sitemapXml += `
+    <url>
+        <loc>${baseUrl}/post/${post.slug}</loc>
+        <lastmod>${postDate}</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>`;
+                    }
+                });
+            }
+
+            sitemapXml += `
+</urlset>`;
+
+            return sitemapXml;
+        }
+
+        function showStatus(statusElement, type, message) {
+            statusElement.className = `status-message status-${type}`;
+            statusElement.textContent = message;
+            statusElement.style.display = 'block';
+            
+            if (type === 'success') {
+                setTimeout(() => {
+                    statusElement.style.display = 'none';
+                }, 8000);
+            }
+        }
+
+        // Verificar autenticación al cargar la página
+        window.addEventListener('load', () => {
+            const token = getAuthToken();
+            if (!token) {
+                document.body.innerHTML = `
+                    <div style="text-align: center; padding: 50px;">
+                        <h1>🔒 Acceso Denegado</h1>
+                        <p>Debes estar autenticado para acceder a esta página.</p>
+                        <p><a href="../">Volver al Panel de Administración</a></p>
+                    </div>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>

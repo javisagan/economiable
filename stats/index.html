@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estadísticas - economIAble</title>
+    <link rel="stylesheet" href="stats.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 Estadísticas de Visitas</h1>
+            <nav>
+                <a href="/admin" class="btn-back">← Volver al Panel Admin</a>
+                <button id="logout-button" class="btn-logout">Cerrar Sesión</button>
+            </nav>
+        </header>
+
+        <div id="login-section" class="login-section">
+            <div class="login-card">
+                <h2>🔐 Acceso Requerido</h2>
+                <p>Debes estar autenticado para ver las estadísticas.</p>
+                <a href="/admin" class="btn-primary">Ir al Panel de Administración</a>
+            </div>
+        </div>
+
+        <div id="stats-panel" class="stats-panel">
+            <div class="stats-summary">
+                <div class="stat-card">
+                    <h3>🏠 Página Principal</h3>
+                    <div class="stat-number" id="homepage-visits">-</div>
+                    <span class="stat-label">visitas</span>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>📝 Posts Totales</h3>
+                    <div class="stat-number" id="posts-count">-</div>
+                    <span class="stat-label">posts con visitas</span>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>🔗 Top Referrer</h3>
+                    <div class="stat-number" id="top-referrer-name" style="font-size: 1.2rem;">-</div>
+                    <span class="stat-label" id="top-referrer-count">visitas</span>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>👁️ Total General</h3>
+                    <div class="stat-number" id="total-visits">-</div>
+                    <span class="stat-label">visitas totales</span>
+                </div>
+            </div>
+
+            <!-- Analytics Sections -->
+            <div class="analytics-grid">
+                <div class="analytics-card">
+                    <h3>🔗 Top Referrers</h3>
+                    <div id="referrers-list" class="analytics-list">
+                        <div class="loading">Cargando...</div>
+                    </div>
+                </div>
+                
+                <div class="analytics-card">
+                    <h3>🖥️ Dispositivos y Navegadores</h3>
+                    <div id="user-agents-list" class="analytics-list">
+                        <div class="loading">Cargando...</div>
+                    </div>
+                </div>
+                
+                <div class="analytics-card">
+                    <h3>🌍 Países</h3>
+                    <div id="countries-list" class="analytics-list">
+                        <div class="loading">Cargando...</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="posts-stats">
+                <h2>📊 Posts Más Visitados</h2>
+                <div class="refresh-section">
+                    <button id="refresh-button" class="btn-refresh">🔄 Actualizar</button>
+                    <span id="last-updated" class="last-updated"></span>
+                </div>
+                
+                <div class="table-container">
+                    <table id="posts-table">
+                        <thead>
+                            <tr>
+                                <th>Posición</th>
+                                <th>Título del Post</th>
+                                <th>Fecha</th>
+                                <th>Visitas</th>
+                                <th>Top Referrer</th>
+                            </tr>
+                        </thead>
+                        <tbody id="posts-tbody">
+                            <tr>
+                                <td colspan="5" class="loading">Cargando estadísticas...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="error-message" class="error-message"></div>
+    </div>
+
+    <script src="stats.js"></script>
+</body>
+</html>

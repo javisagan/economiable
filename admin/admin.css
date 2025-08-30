@@ -1,0 +1,484 @@
+/* admin/css/style.css */
+
+/* --- Variables de Estilo Importadas del CSS Público --- */
+:root {
+    --primary-color: #333;
+    --text-muted-color: #888;
+    --border-color: #eee;
+    --background-color: #ffffff;
+    --header-color: #2E5A6A;
+    --title-brown-color: #6a5a50; 
+    
+    --font-sans: 'Lato', sans-serif;
+    --font-serif: 'Merriweather', serif; 
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: #f8f9fa; /* Un fondo muy claro para diferenciar del blanco del contenedor */
+    color: var(--primary-color);
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 2rem;
+    background-color: var(--background-color);
+    border-radius: 0; /* Sin bordes redondeados para un estilo más limpio */
+    box-shadow: none; /* Sin sombra */
+    border: 1px solid var(--border-color); /* Borde sutil para definir el contenedor */
+}
+
+#login-section { max-width: 400px; }
+#login-section h1 {
+    font-family: var(--font-sans);
+    color: var(--header-color);
+    text-align: center;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* --- Estilos para el Header del Panel Admin --- */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--border-color);
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+header h1 {
+    font-family: var(--font-sans);
+    color: var(--header-color);
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.header-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+/* Botones de utilidades - Colores sutiles y claros */
+.utility-btn {
+    background-color: #8e9196;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    white-space: nowrap;
+}
+
+.utility-btn:hover {
+    background-color: #757a80;
+    transform: translateY(-1px);
+}
+
+.utility-btn:active {
+    transform: translateY(0);
+}
+
+/* Botón específico para sitemap */
+#sitemap-button {
+    background-color: #9ca3af;
+}
+
+#sitemap-button:hover {
+    background-color: #838994;
+}
+
+/* Botón específico para robots */
+#robots-button {
+    background-color: #a1a8b0;
+}
+
+#robots-button:hover {
+    background-color: #878e96;
+}
+
+/* Botón de utilidades principal */
+#utilidades-button {
+    background-color: #95a2b3;
+}
+
+#utilidades-button:hover {
+    background-color: #7a8799;
+}
+
+/* Botón de logout */
+#logout-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+#logout-button:hover {
+    background-color: #c82333;
+}
+
+/* Responsivo para móviles */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+    
+    .header-actions {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .utility-btn, #logout-button {
+        flex: 1;
+        min-width: 120px;
+    }
+}
+
+/* --- Estilos para la Lista de Posts --- */
+.posts-list-container li {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.posts-list-container li:hover {
+    background-color: #f0f0f0;
+}
+
+/* Header de cada post */
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.post-title {
+    flex: 1;
+    font-weight: 500;
+    color: var(--primary-color);
+    line-height: 1.4;
+}
+
+/* Contenedor de iconos de acciones */
+.post-actions-icons {
+    display: flex;
+    gap: 0.25rem;
+    margin-left: 1rem;
+    flex-shrink: 0;
+}
+
+/* Estilos para los iconos de acción */
+.action-icon {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 3px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8e9196; /* Color gris para los iconos */
+}
+
+.action-icon:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    transform: scale(1.1);
+}
+
+.action-icon:active {
+    transform: scale(0.95);
+}
+
+/* Colores específicos para cada tipo de acción */
+.action-icon.edit-btn:hover {
+    background-color: rgba(28, 168, 221, 0.15);
+}
+
+.action-icon.delete-btn:hover {
+    background-color: rgba(220, 53, 69, 0.15);
+}
+
+/* Responsivo para iconos */
+@media (max-width: 768px) {
+    .post-header {
+        flex-direction: row;
+        align-items: center;
+    }
+    
+    .post-actions-icons {
+        margin-left: 0.5rem;
+    }
+    
+    .action-icon {
+        font-size: 1rem;
+        width: 24px;
+        height: 24px;
+    }
+}
+
+/* --- Estilos para alinear el botón de login --- */
+.login-button-container {
+    margin-top: 1.5rem; /* Añade espacio sobre el botón */
+    text-align: right;  /* Alinea el contenido (el botón) a la derecha */
+}
+
+/* Mensajes de error (se mantiene el estilo distintivo por usabilidad) */
+.error-message {
+    color: #d93025;
+    background-color: #fbeae9;
+    border: 1px solid #d93025;
+    border-radius: 0;
+    padding: 10px;
+    margin-top: 1rem;
+    min-height: 1em;
+    text-align: center;
+    font-size: 0.9em;
+}
+.error-message:empty {
+    display: none;
+}
+
+#admin-panel header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+}
+
+#admin-panel header h1 {
+    font-family: var(--font-sans);
+    color: var(--header-color);
+    text-transform: uppercase;
+    font-size: 1.5rem;
+    letter-spacing: 1.5px;
+    margin: 0;
+}
+
+.panel-content { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+@media (max-width: 900px) { .panel-content { grid-template-columns: 1fr; } }
+
+form label { display: block; font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem; }
+form input[type="text"], form input[type="url"], form input[type="date"], form input[type="password"], form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc; /* Un gris un poco más oscuro para que resalte el campo */
+    border-radius: 0;
+    box-sizing: border-box;
+    font-size: 1rem;
+    font-family: var(--font-sans);
+    color: var(--primary-color);
+}
+form textarea { resize: vertical; }
+.form-buttons { margin-top: 1.5rem; }
+
+#posts-list { list-style-type: none; padding: 0; }
+#posts-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border: 1px solid var(--border-color);
+    margin-bottom: 0.5rem;
+    border-radius: 0;
+}
+#posts-list li:hover { background-color: #f8f9fa; }
+#posts-list li small { color: var(--text-muted-color); margin-left: 0.5rem; }
+
+button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 0;
+    font-size: 0.9rem;
+    font-family: var(--font-sans);
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+/* Botón Primario */
+button[type="submit"], #save-button {
+    background-color: var(--header-color);
+    color: white;
+}
+button[type="submit"]:hover, #save-button:hover {
+    background-color: #244754; /* Tono más oscuro de --header-color */
+}
+/* Botón Secundario */
+#logout-button, #cancel-button, .edit-btn {
+    background-color: #f0f0f0;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+#logout-button:hover, #cancel-button:hover, .edit-btn:hover {
+    background-color: #e0e0e0;
+}
+/* Botón de Peligro (se mantiene el color por usabilidad) */
+.delete-btn {
+    background-color: #fa3e3e;
+    color: white;
+    margin-left: 0.5rem;
+}
+.delete-btn:hover {
+    background-color: #e03030;
+}
+
+/* --- ESTILOS PARA LA BARRA DE HERRAMIENTAS DE EDICIÓN --- */
+.field-with-toolbar {
+    position: relative;
+}
+
+.editor-toolbar {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 5px;
+    padding: 5px;
+    background-color: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 0;
+}
+
+.toolbar-btn {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    background-color: white;
+    color: var(--primary-color);
+    font-size: 0.8rem;
+    cursor: pointer;
+    border-radius: 0;
+    transition: background-color 0.2s;
+    min-width: 30px;
+    text-align: center;
+}
+
+.toolbar-btn:hover {
+    background-color: #e9ecef;
+    border-color: #adb5bd;
+}
+
+.toolbar-btn:active {
+    background-color: #dee2e6;
+}
+
+.toolbar-btn strong {
+    font-weight: bold;
+    font-family: var(--font-sans);
+}
+
+/* Ajustar el campo de entrada para que coincida con la toolbar */
+.field-with-toolbar input,
+.field-with-toolbar textarea {
+    border-top: none;
+}
+
+/* --- ESTILOS PARA EL BUSCADOR DE POSTS --- */
+.search-container {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border: 1px solid var(--border-color);
+}
+
+#search-input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 0;
+    font-size: 1rem;
+    font-family: var(--font-sans);
+    background-color: white;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box;
+}
+
+#search-input:focus {
+    outline: none;
+    border-color: var(--header-color);
+    box-shadow: 0 0 0 3px rgba(46, 90, 106, 0.1);
+}
+
+#search-input::placeholder {
+    color: #999;
+    font-style: italic;
+}
+
+.search-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+}
+
+#search-results-count {
+    color: var(--text-muted-color);
+    font-weight: 500;
+}
+
+#clear-search {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    border-radius: 0;
+    transition: background-color 0.2s;
+}
+
+#clear-search:hover {
+    background-color: #5a6268;
+}
+
+/* Resaltado de términos de búsqueda */
+mark {
+    background-color: #fff3cd;
+    color: #856404;
+    padding: 1px 2px;
+    border-radius: 2px;
+    font-weight: bold;
+}
+
+/* Mejorar la visualización de la lista cuando hay búsqueda activa */
+.search-active #posts-list li {
+    transition: opacity 0.2s ease;
+}
+
+/* Animación sutil para resultados de búsqueda */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.search-results #posts-list li {
+    animation: fadeIn 0.3s ease;
+}

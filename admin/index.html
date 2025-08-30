@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración</title>
+    <link rel="stylesheet" href="admin.css?v=1.1"> </head>
+<body>
+
+    <div id="login-section" class="container">
+        <h1>Acceso al Panel</h1>
+        <form id="login-form">
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" required>
+            
+            <div class="login-button-container">
+                <button type="submit">Entrar</button>
+            </div>
+            
+            <p id="login-error" class="error-message"></p>
+        </form>
+    </div>
+
+    <div id="admin-panel" class="container" style="display: none;">
+        <header>
+            <h1>Gestión de Posts</h1>
+            <div class="header-actions">
+                <button id="sitemap-button" class="utility-btn">📄 Generar Sitemap</button>
+                <button id="robots-button" class="utility-btn">🤖 Generar Robots.txt</button>
+                <button id="utilidades-button" class="utility-btn">🛠️ Utilidades</button>
+                <button id="stats-button" class="utility-btn">📊 Estadísticas</button>
+                <button id="logout-button">Cerrar Sesión</button>
+            </div>
+        </header>
+
+        <div class="panel-content">
+            <div class="form-container">
+                <h2 id="form-title">Añadir Nuevo Post</h2>
+                <form id="post-form">
+                    <p id="form-error" class="error-message"></p>
+                    
+                    <input type="hidden" id="post-id">
+                    
+                    <label for="title">Título:</label>
+                    <input type="text" id="title" required>
+
+                    <label for="subtitle">Subtítulo:</label>
+                    <input type="text" id="subtitle">
+
+                    <label for="author">Autor:</label>
+                    <div class="field-with-toolbar">
+                        <div class="editor-toolbar">
+                            <button type="button" class="toolbar-btn" data-field="author" data-action="bold" title="Negrita">
+                                <strong>B</strong>
+                            </button>
+                            <button type="button" class="toolbar-btn" data-field="author" data-action="link" title="Insertar enlace">
+                                🔗
+                            </button>
+                        </div>
+                        <input type="text" id="author" required>
+                    </div>
+
+                    <label for="date">Fecha:</label>
+                    <input type="date" id="date" required>
+
+                    <label for="imageUrl">URL de la Imagen:</label>
+                    <input type="url" id="imageUrl">
+
+                    <label for="excerpt">Extracto (resumen):</label>
+                    <textarea id="excerpt" rows="3" required></textarea>
+
+                    <label for="content">Contenido (acepta saltos de línea):</label>
+                    <div class="field-with-toolbar">
+                        <div class="editor-toolbar">
+                            <button type="button" class="toolbar-btn" data-field="content" data-action="bold" title="Negrita">
+                                <strong>B</strong>
+                            </button>
+                            <button type="button" class="toolbar-btn" data-field="content" data-action="link" title="Insertar enlace">
+                                🔗
+                            </button>
+                        </div>
+                        <textarea id="content" rows="10" required></textarea>
+                    </div>
+
+                    <label for="tags">Etiquetas (separadas por comas):</label>
+                    <input type="text" id="tags">
+
+                    <label for="metaTitle">Meta Título (SEO):</label>
+                    <input type="text" id="metaTitle">
+
+                    <label for="metaDescription">Meta Descripción (SEO):</label>
+                    <textarea id="metaDescription" rows="2"></textarea>
+
+                    <div class="form-buttons">
+                        <button type="submit" id="save-button">Guardar Post</button>
+                        <button type="button" id="cancel-button" style="display: none;">Cancelar Edición</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="posts-list-container">
+                <h2>Posts Existentes</h2>
+                
+                <div class="search-container">
+                    <input type="text" id="search-input" placeholder="Buscar en título, subtítulo, extracto o contenido..." autocomplete="off">
+                    <div class="search-info">
+                        <span id="search-results-count"></span>
+                        <button type="button" id="clear-search" style="display: none;">Limpiar</button>
+                    </div>
+                </div>
+                
+                <ul id="posts-list">
+                    </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
